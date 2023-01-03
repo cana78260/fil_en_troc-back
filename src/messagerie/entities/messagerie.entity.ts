@@ -14,8 +14,8 @@ export class Messagerie {
 
   @Column({
     nullable: false,
-    type: 'text',
-    length: 1000,
+    type: 'varchar',
+    length: 255,
   })
   message: string;
 
