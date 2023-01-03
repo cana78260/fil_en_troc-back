@@ -1,5 +1,11 @@
 import { Service } from 'src/services/entities/service.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Category {
@@ -20,7 +26,7 @@ export class Category {
   })
   categories: string;
 
-  @ManyToOne(() => Service, (services) => services.categorie, {
+  @OneToMany(() => Service, (services) => services.categorie, {
     eager: false,
   })
   service!: Service;

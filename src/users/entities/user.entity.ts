@@ -103,6 +103,6 @@ export class User {
   services!: Service[];
   messages: any;
 
-  @ManyToOne(() => Messagerie, (message) => message.users, { eager: false })
+  @OneToMany(() => Messagerie, (message) => message.users, { eager: false })
   message!: Messagerie[];
 }

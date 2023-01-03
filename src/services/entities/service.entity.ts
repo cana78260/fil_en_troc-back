@@ -57,7 +57,7 @@ export class Service {
   })
   users!: User;
 
-  @OneToMany(() => Category, (categorie) => categorie.service, {
+  @ManyToOne(() => Category, (categorie) => categorie.service, {
     eager: true,
   })
   categorie!: Category[];
