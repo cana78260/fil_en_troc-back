@@ -1,1 +1,5 @@
-export class CreateMessagerieDto {}
+export class CreateMessagerieDto {
+  date: string;
+
+  message: string;
+}

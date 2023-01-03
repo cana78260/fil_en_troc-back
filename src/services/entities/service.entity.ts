@@ -1,5 +1,12 @@
+import { Category } from 'src/categories/entities/category.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Service {
@@ -49,4 +56,9 @@ export class Service {
     eager: false,
   })
   users!: User;
+
+  @OneToMany(() => Category, (categorie) => categorie.service, {
+    eager: true,
+  })
+  categorie!: Category[];
 }

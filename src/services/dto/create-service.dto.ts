@@ -1,3 +1,5 @@
+import { User } from 'src/users/entities/user.entity';
+
 export class CreateServiceDto {
   titre: string;
 
@@ -10,4 +12,6 @@ export class CreateServiceDto {
   note: number;
 
   libelle: string;
+
+  users: User;
 }

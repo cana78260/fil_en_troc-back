@@ -1,4 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
+import { User } from 'src/users/entities/user.entity';
 import { CreateServiceDto } from './create-service.dto';
 
 export class UpdateServiceDto {
@@ -13,4 +14,6 @@ export class UpdateServiceDto {
   note?: number;
 
   libelle?: string;
+
+  users: User;
 }

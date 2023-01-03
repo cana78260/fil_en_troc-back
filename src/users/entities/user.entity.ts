@@ -1,3 +1,4 @@
+import { Messagerie } from 'src/messagerie/entities/messagerie.entity';
 import { Role } from 'src/role/entities/role.entity';
 import { Service } from 'src/services/entities/service.entity';
 import {
@@ -100,7 +101,8 @@ export class User {
 
   @OneToMany(() => Service, (services) => services.users, { eager: true })
   services!: Service[];
+  messages: any;
 
-  //   @OneToMany(() => Message, (messages) => messages.users, { eager: true })
-  //   messages!: Message[];
+  @ManyToOne(() => Messagerie, (message) => message.users, { eager: false })
+  message!: Messagerie[];
 }
