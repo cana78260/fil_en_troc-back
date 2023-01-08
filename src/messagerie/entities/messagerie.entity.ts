@@ -20,11 +20,10 @@ export class Messagerie {
 
   @Column({
     nullable: false,
-    type: 'varchar',
-    length: 255,
+    type: 'text',
   })
   message: string;
 
-  @ManyToOne(() => User, (users) => users.messages, { eager: true })
-  users!: User[];
+  @ManyToOne(() => User, (users) => users.message, { eager: false })
+  users: User;
 }

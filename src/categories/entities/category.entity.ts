@@ -29,5 +29,5 @@ export class Category {
   @OneToMany(() => Service, (services) => services.categorie, {
     eager: false,
   })
-  service!: Service;
+  service: Service;
 }

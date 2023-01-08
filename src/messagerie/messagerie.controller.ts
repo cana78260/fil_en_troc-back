@@ -27,7 +27,7 @@ export class MessagerieController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.messagerieService.findOne(+id);
+    return this.messagerieService.findOne(id);
   }
 
   @Patch(':id')
@@ -35,11 +35,11 @@ export class MessagerieController {
     @Param('id') id: string,
     @Body() updateMessagerieDto: UpdateMessagerieDto,
   ) {
-    return this.messagerieService.update(+id, updateMessagerieDto);
+    return this.messagerieService.update(id, updateMessagerieDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.messagerieService.remove(+id);
+    return this.messagerieService.remove(id);
   }
 }

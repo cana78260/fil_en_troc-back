@@ -100,9 +100,8 @@ export class User {
   role: Role;
 
   @OneToMany(() => Service, (services) => services.users, { eager: true })
-  services!: Service[];
-  messages: any;
+  services: Service[];
 
-  @OneToMany(() => Messagerie, (message) => message.users, { eager: false })
-  message!: Messagerie[];
+  @OneToMany(() => Messagerie, (message) => message.users, { eager: true })
+  message: Messagerie[];
 }

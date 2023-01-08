@@ -1,6 +1,9 @@
+import { Role } from 'src/role/entities/role.entity';
+
 export class CreateUserDto {
   nom: string;
   prenom: string;
+  pseudo: string;
   age: number;
   genre: string;
   adresse: string;
@@ -10,5 +13,5 @@ export class CreateUserDto {
   heures_offertes: number;
   heures_recues: number;
   moyenne_notes: number;
-  //   role?: Role;
+  role?: Role;
 }

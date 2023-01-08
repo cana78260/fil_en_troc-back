@@ -4,5 +4,4 @@ export class CreateCategoryDto {
   titre: string;
 
   categories: string;
-  services: Service;
 }

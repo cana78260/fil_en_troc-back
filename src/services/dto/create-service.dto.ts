@@ -1,3 +1,4 @@
+import { Category } from 'src/categories/entities/category.entity';
 import { User } from 'src/users/entities/user.entity';
 
 export class CreateServiceDto {
@@ -14,4 +15,6 @@ export class CreateServiceDto {
   libelle: string;
 
   users: User;
+
+  category?: Category;
 }

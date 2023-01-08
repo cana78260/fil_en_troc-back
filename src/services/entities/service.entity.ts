@@ -55,10 +55,10 @@ export class Service {
   @ManyToOne(() => User, (users) => users.services, {
     eager: false,
   })
-  users!: User;
+  users: User;
 
   @ManyToOne(() => Category, (categorie) => categorie.service, {
     eager: true,
   })
-  categorie!: Category[];
+  categorie: Category[];
 }

@@ -1,26 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Category } from './entities/category.entity';
 
 @Injectable()
 export class CategoriesService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  constructor(
+    @InjectRepository(Category)
+    private categorieRepository: Repository<Category>,
+  ) {}
+
+  async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
+    return await this.categorieRepository.save(createCategoryDto);
   }
 
-  findAll() {
-    return `This action returns all categories`;
+  async findAll(): Promise<Category[]> {
+    return await this.categorieRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(id: string): Promise<Category> {
+    const categorieFound = await this.categorieRepository.findOneBy({ id: id });
+    if (!categorieFound) {
+      throw new NotFoundException(`Pas d'activités avec l'id: ${id}`);
+    }
+    return categorieFound;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(
+    id: string,
+    updateCategoryDto: UpdateCategoryDto,
+  ): Promise<Category> {
+    const updateCategorie = await this.findOne(id);
+    if (updateCategorie.titre !== undefined) {
+      updateCategorie.titre = updateCategoryDto.titre;
+    }
+    if (updateCategorie.categories !== undefined) {
+      updateCategorie.categories = updateCategoryDto.categories;
+    }
+
+    return await this.categorieRepository.save(updateCategorie);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: string): Promise<string> {
+    const result = await this.categorieRepository.delete({ id });
+    if (result.affected === 0) {
+      throw new NotFoundException(`Pas de catégorie à l'id: ${id}`);
+    }
+    return `La catégorie liée à l'id: ${id} a été supprimée!`;
   }
 }
