@@ -12,6 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Role } from './role/entities/role.entity';
 import { Messagerie } from './messagerie/entities/messagerie.entity';
 import { Category } from './categories/entities/category.entity';
+import { AuthModule } from './auth/auth.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config({ path: '.env' });
@@ -34,6 +35,7 @@ dotenv.config({ path: '.env' });
     ServicesModule,
     MessagerieModule,
     CategoriesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
