@@ -6,6 +6,8 @@ export class CreateServiceDto {
 
   localisation: string;
 
+  departement?: string;
+
   creation: string;
 
   echeance: string;

@@ -17,14 +17,14 @@ export class Category {
     type: 'varchar',
     length: 100,
   })
-  titre: string;
+  intitule: string;
 
   @Column({
     nullable: false,
     type: 'varchar',
     length: 100,
   })
-  categories: string;
+  image: string;
 
   @OneToMany(() => Service, (services) => services.categorie, {
     eager: false,

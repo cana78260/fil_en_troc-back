@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+// import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
@@ -23,34 +23,34 @@ export class UsersController {
   ) {}
 
   //requête créée dans AuthService
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
+  // @Post()
+  // create(@Body() createUserDto: CreateUserDto) {
+  //   return this.usersService.create(createUserDto);
+  // }
 
   //Admin
   @Get()
-  @UseGuards(AuthGuard(), AdminGuard)
+  // @UseGuards(AuthGuard(), AdminGuard)
   findAll() {
     return this.usersService.findAll();
   }
 
   //User
   @Get(':id')
-  @UseGuards(AuthGuard())
+  // @UseGuards(AuthGuard())
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
   //User
   @Patch(':id')
-  @UseGuards(AuthGuard())
+  // @UseGuards(AuthGuard())
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
 
   //User
   @Delete(':id')
-  @UseGuards(AuthGuard())
+  // @UseGuards(AuthGuard())
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
   }

@@ -7,6 +7,8 @@ export class UpdateServiceDto {
 
   localisation?: string;
 
+  departement?: string;
+
   creation?: string;
 
   echeance?: string;

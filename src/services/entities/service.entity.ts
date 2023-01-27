@@ -29,6 +29,13 @@ export class Service {
 
   @Column({
     nullable: false,
+    type: 'varchar',
+    length: 100,
+  })
+  departement: string;
+
+  @Column({
+    nullable: false,
     type: 'date',
   })
   creation: string;
@@ -53,9 +60,14 @@ export class Service {
   libelle: string;
 
   @ManyToOne(() => User, (users) => users.services, {
+    eager: true,
+  })
+  createur: User;
+
+  @ManyToOne(() => User, (users) => users.services, {
     eager: false,
   })
-  users: User;
+  client: User;
 
   @ManyToOne(() => Category, (categorie) => categorie.service, {
     eager: true,

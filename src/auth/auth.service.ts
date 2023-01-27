@@ -29,12 +29,12 @@ export class AuthService {
       age,
       genre,
       adresse,
-      cp_ville,
+      ville,
+      departement,
       mail,
       pseudo,
       mot_de_passe,
-      heures_offertes,
-      heures_recues,
+      compte_temps,
       moyenne_notes,
     } = createAuthDto;
 
@@ -51,11 +51,11 @@ export class AuthService {
       age,
       genre,
       adresse,
-      cp_ville,
+      ville,
+      departement,
       mail,
       mot_de_passe: hashedPassword,
-      heures_offertes,
-      heures_recues,
+      compte_temps,
       moyenne_notes,
     });
 

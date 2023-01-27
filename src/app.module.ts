@@ -14,11 +14,17 @@ import { Messagerie } from './messagerie/entities/messagerie.entity';
 import { Category } from './categories/entities/category.entity';
 import { AuthModule } from './auth/auth.module';
 import * as dotenv from 'dotenv';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 dotenv.config({ path: '.env' });
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public/assets'),
+      // serveRoot: 'public/assets/',
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -41,3 +47,9 @@ dotenv.config({ path: '.env' });
   providers: [AppService],
 })
 export class AppModule {}
+
+// ServeStaticModule.forRoot({
+//       // permet de gérer les fichiers statics (images) comme avec express.static
+//       rootPath: join(__dirname, '..', 'public/assets'),
+//       serveRoot: '/public/assets/',
+//     }),

@@ -33,11 +33,11 @@ export class CategoriesService {
     updateCategoryDto: UpdateCategoryDto,
   ): Promise<Category> {
     const updateCategorie = await this.findOne(id);
-    if (updateCategorie.titre !== undefined) {
-      updateCategorie.titre = updateCategoryDto.titre;
+    if (updateCategorie.intitule !== undefined) {
+      updateCategorie.intitule = updateCategoryDto.intitule;
     }
-    if (updateCategorie.categories !== undefined) {
-      updateCategorie.categories = updateCategoryDto.categories;
+    if (updateCategorie.image !== undefined) {
+      updateCategorie.image = updateCategoryDto.image;
     }
 
     return await this.categorieRepository.save(updateCategorie);

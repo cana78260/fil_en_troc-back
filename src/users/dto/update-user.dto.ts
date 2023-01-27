@@ -74,7 +74,14 @@ export class UpdateUserDto {
   @MinLength(1, {
     message: ' *La ville doit contenir au moins un caractère',
   })
-  cp_ville: string;
+  ville: string;
+
+  @IsOptional()
+  @IsString()
+  @MinLength(3, {
+    message: ' *Votre département doit contenir au moins trois caractères',
+  })
+  departement: string;
 
   @IsOptional()
   @IsEmail(
@@ -97,8 +104,7 @@ export class UpdateUserDto {
   })
   mot_de_passe: string;
 
-  heures_offertes?: number;
-  heures_recues?: number;
+  compte_temps?: number;
   moyenne_notes?: number;
   role?: Role;
 }

@@ -36,6 +36,10 @@ export class ServicesService {
     if (updateService.localisation !== undefined) {
       updateService.localisation = updateServiceDto.localisation;
     }
+
+    if (updateService.departement !== undefined) {
+      updateService.departement = updateServiceDto.departement;
+    }
     if (updateService.creation !== undefined) {
       updateService.creation = updateServiceDto.creation;
     }

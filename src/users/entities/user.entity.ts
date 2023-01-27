@@ -62,7 +62,14 @@ export class User {
     type: 'varchar',
     length: 100,
   })
-  cp_ville: string;
+  ville: string;
+
+  @Column({
+    nullable: false,
+    type: 'varchar',
+    length: 100,
+  })
+  departement: string;
 
   @Column({
     nullable: false,
@@ -82,13 +89,7 @@ export class User {
     nullable: false,
     type: 'float',
   })
-  heures_offertes: number;
-
-  @Column({
-    nullable: false,
-    type: 'float',
-  })
-  heures_recues: number;
+  compte_temps: number;
 
   @Column({
     nullable: false,
@@ -99,8 +100,11 @@ export class User {
   @ManyToOne(() => Role, (role) => role.users, { eager: true })
   role: Role;
 
-  @OneToMany(() => Service, (services) => services.users, { eager: true })
+  @OneToMany(() => Service, (services) => services.createur, { eager: false })
   services: Service[];
+
+  @OneToMany(() => Service, (services) => services.client, { eager: true })
+  client: Service[];
 
   @OneToMany(() => Messagerie, (message) => message.users, { eager: true })
   message: Messagerie[];

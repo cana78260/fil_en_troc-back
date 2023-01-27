@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateAuthDto } from 'src/auth/dto/create-auth.dto';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
+// import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 
@@ -12,10 +13,10 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const userCreate = await this.userRepository.save(createUserDto);
-    return await this.userRepository.save(userCreate);
-  }
+  // async create(createUserDto: CreateAuthDto): Promise<User> {
+  //   const userCreate = await this.userRepository.save(createUserDto);
+  //   return await this.userRepository.save(userCreate);
+  // }
 
   async findAll(): Promise<User[]> {
     return await this.userRepository.find();
@@ -50,8 +51,11 @@ export class UsersService {
     if (userUpdate.adresse !== undefined) {
       userUpdate.adresse = updateUserDto.adresse;
     }
-    if (userUpdate.cp_ville !== undefined) {
-      userUpdate.cp_ville = updateUserDto.cp_ville;
+    if (userUpdate.ville !== undefined) {
+      userUpdate.ville = updateUserDto.ville;
+    }
+    if (userUpdate.departement !== undefined) {
+      userUpdate.departement = updateUserDto.departement;
     }
     if (userUpdate.mail !== undefined) {
       userUpdate.mail = updateUserDto.mail;
@@ -59,11 +63,8 @@ export class UsersService {
     if (userUpdate.mot_de_passe !== undefined) {
       userUpdate.mot_de_passe = updateUserDto.mot_de_passe;
     }
-    if (userUpdate.heures_offertes !== undefined) {
-      userUpdate.heures_offertes = updateUserDto.heures_offertes;
-    }
-    if (userUpdate.heures_recues !== undefined) {
-      userUpdate.heures_recues = updateUserDto.heures_recues;
+    if (userUpdate.compte_temps !== undefined) {
+      userUpdate.compte_temps = updateUserDto.compte_temps;
     }
     if (userUpdate.moyenne_notes !== undefined) {
       userUpdate.moyenne_notes = updateUserDto.moyenne_notes;
