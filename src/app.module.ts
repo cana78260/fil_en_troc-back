@@ -16,6 +16,7 @@ import { AuthModule } from './auth/auth.module';
 import * as dotenv from 'dotenv';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { PassportModule } from '@nestjs/passport';
 
 dotenv.config({ path: '.env' });
 
@@ -42,6 +43,7 @@ dotenv.config({ path: '.env' });
     MessagerieModule,
     CategoriesModule,
     AuthModule,
+    PassportModule,
   ],
   controllers: [AppController],
   providers: [AppService],

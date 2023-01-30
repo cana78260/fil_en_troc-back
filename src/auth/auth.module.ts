@@ -21,6 +21,6 @@ dotenv.config({ path: '.env' });
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
-  exports: [JwtStrategy, PassportModule],
+  exports: [JwtStrategy, PassportModule, JwtStrategy],
 })
 export class AuthModule {}

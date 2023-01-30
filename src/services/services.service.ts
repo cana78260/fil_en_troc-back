@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
@@ -12,24 +13,42 @@ export class ServicesService {
     private serviceRepository: Repository<Service>,
   ) {}
 
-  async create(createServiceDto: CreateServiceDto): Promise<Service> {
-    return await this.serviceRepository.save(createServiceDto);
+  async create(
+    createServiceDto: CreateServiceDto,
+    user: User,
+  ): Promise<Service> {
+    const createur = {
+      id: user.id,
+    };
+    console.log('.........createur', createur);
+    const service = { ...createServiceDto, createur };
+
+    console.log('*************service', service);
+    return await this.serviceRepository.save(service);
   }
 
   async findAll(): Promise<Service[]> {
     return await this.serviceRepository.find();
   }
 
-  async findOne(id: string): Promise<Service> {
-    const foundService = await this.serviceRepository.findOneBy({ id: id });
+  async findOneService(id: string): Promise<Service> {
+    const queryServ = await this.serviceRepository.findOneBy({ id: id });
+
+    return queryServ;
+  }
+
+  async findOne(id: string, user: User): Promise<Service> {
+    const queryServ = await this.serviceRepository.createQueryBuilder();
+    queryServ.where({ id: id }).andWhere({ users: user });
+    const foundService = await queryServ.getOne();
     if (!foundService) {
       throw new NotFoundException(`Pas de service avec l'id: ${id}`);
     }
     return foundService;
   }
 
-  async update(id: string, updateServiceDto: UpdateServiceDto) {
-    const updateService = await this.findOne(id);
+  async update(id: string, updateServiceDto: UpdateServiceDto, user: User) {
+    const updateService = await this.findOne(id, user);
     if (updateService.titre !== undefined) {
       updateService.titre = updateServiceDto.titre;
     }

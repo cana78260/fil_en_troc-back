@@ -16,7 +16,9 @@ export class CreateServiceDto {
 
   libelle: string;
 
-  users: User;
+  client: User;
+
+  createur: User;
 
   category?: Category;
 }

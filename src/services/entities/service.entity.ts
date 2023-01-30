@@ -59,13 +59,13 @@ export class Service {
   })
   libelle: string;
 
-  @ManyToOne(() => User, (users) => users.services, {
+  @ManyToOne(() => User, (users) => users.serviceCreé, {
     eager: true,
   })
   createur: User;
 
-  @ManyToOne(() => User, (users) => users.services, {
-    eager: false,
+  @ManyToOne(() => User, (users) => users.serviceReservé, {
+    eager: true,
   })
   client: User;
 

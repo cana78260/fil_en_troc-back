@@ -93,7 +93,7 @@ export class AuthService {
     ) {
       const payload = {
         userName: userLogin.mail,
-        // role: userLogged.role.label,
+        role: userLogged.role.label,
         id: userLogged.id,
       };
       console.log('payload: ', payload);
