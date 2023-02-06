@@ -1,8 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateServiceDto } from './dto/create-service.dto';
+import { UpdateClientDto } from './dto/update-ClientId.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
 import { Service } from './entities/service.entity';
 
@@ -47,8 +52,24 @@ export class ServicesService {
     return foundService;
   }
 
-  async update(id: string, updateServiceDto: UpdateServiceDto, user: User) {
-    const updateService = await this.findOne(id, user);
+  async updateClient(
+    id: string,
+    updateClientDto: UpdateClientDto,
+    client: User,
+  ): Promise<Service> {
+    const patch = await this.findOneService(id);
+
+    console.log('---------patch', patch);
+    if (!patch) {
+      throw new NotFoundException(`Pas de service avec l'id: ${id} `);
+    }
+    patch.client = client;
+
+    return await this.serviceRepository.save(patch);
+  }
+
+  async update(id: string, updateServiceDto: UpdateServiceDto, createur: User) {
+    const updateService = await this.findOne(id, createur);
     if (updateService.titre !== undefined) {
       updateService.titre = updateServiceDto.titre;
     }

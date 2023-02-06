@@ -17,5 +17,5 @@ export class UpdateServiceDto {
 
   libelle?: string;
 
-  users: User;
+  createur: User;
 }
