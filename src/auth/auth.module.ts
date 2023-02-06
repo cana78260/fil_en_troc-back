@@ -7,12 +7,13 @@ import { JwtStrategy } from '../jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import * as dotenv from 'dotenv';
+import { Role } from 'src/role/entities/role.entity';
 
 dotenv.config({ path: '.env' });
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Role]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       signOptions: { expiresIn: '1h' },

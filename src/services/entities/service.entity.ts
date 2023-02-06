@@ -47,7 +47,7 @@ export class Service {
   echeance: string;
 
   @Column({
-    nullable: false,
+    nullable: true,
     type: 'float',
   })
   note: number;

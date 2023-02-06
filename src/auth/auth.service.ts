@@ -20,9 +20,11 @@ export class AuthService {
     private jwtService: JwtService,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(Role)
+    private roleRepository: Repository<Role>,
   ) {}
 
-  async register(createAuthDto: CreateAuthDto) {
+  async register(createAuthDto: CreateAuthDto): Promise<User> {
     const {
       nom,
       prenom,
@@ -35,7 +37,7 @@ export class AuthService {
       pseudo,
       mot_de_passe,
       compte_temps,
-      moyenne_notes,
+      // moyenne_notes,
     } = createAuthDto;
 
     const salt = await bcrypt.genSalt();
@@ -56,10 +58,17 @@ export class AuthService {
       mail,
       mot_de_passe: hashedPassword,
       compte_temps,
-      moyenne_notes,
+      // moyenne_notes,
     });
 
     try {
+      const roleUser = await this.roleRepository.findOneBy({ label: 'user' });
+      // const roleUserString = roleUser.label;
+      console.log('roleUser ', roleUser);
+      //1 faire un get all users
+      //2 récupérer tous les users.emaildans un tab
+      //3 dans une boucle comparer => si result =
+      user.role = roleUser;
       const createdUser = await this.userRepository.save(user);
       delete createdUser.mot_de_passe;
       return createdUser;

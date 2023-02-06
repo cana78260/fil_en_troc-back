@@ -19,7 +19,26 @@ export class AuthController {
 
   @Post('register')
   create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.register(createAuthDto);
+    if (
+      createAuthDto.nom &&
+      createAuthDto.prenom &&
+      createAuthDto.pseudo &&
+      createAuthDto.age &&
+      createAuthDto.genre &&
+      createAuthDto.adresse &&
+      createAuthDto.ville &&
+      createAuthDto.departement &&
+      createAuthDto.mail &&
+      createAuthDto.mot_de_passe &&
+      createAuthDto.compte_temps
+      // createAuthDto.moyenne_notes
+    ) {
+      return this.authService.register(createAuthDto);
+    } else {
+      throw new BadRequestException(
+        `Veuillez remplir tous les champs correctement !`,
+      );
+    }
   }
 
   @Post('login')

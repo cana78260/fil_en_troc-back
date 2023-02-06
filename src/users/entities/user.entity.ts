@@ -92,7 +92,7 @@ export class User {
   compte_temps: number;
 
   @Column({
-    nullable: false,
+    nullable: true,
     type: 'float',
   })
   moyenne_notes: number;

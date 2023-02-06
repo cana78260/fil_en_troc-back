@@ -3,6 +3,7 @@ import {
   IsEmail,
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
   Max,
@@ -116,7 +117,9 @@ export class CreateAuthDto {
       '*Le mot de passe doit contenir une majuscule, une minuscule et un nombre',
   })
   mot_de_passe: string;
+  @IsOptional()
   compte_temps: number;
+  @IsOptional()
   moyenne_notes: number;
   role?: Role;
 }
