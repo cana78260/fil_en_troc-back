@@ -17,6 +17,7 @@ import { User } from 'src/users/entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { UpdateClientDto } from './dto/update-ClientId.dto';
 import { Service } from './entities/service.entity';
+import { get } from 'http';
 
 @Controller('services')
 // @UseGuards(AuthGuard())
@@ -43,8 +44,17 @@ export class ServicesController {
     return this.servicesService.findAll();
   }
 
+  //route qui permet à un user d'afficher ses services
+  @Get('/byUser')
+  @UseGuards(AuthGuard())
+  findAllbyUser(@GetUser() createur: User) {
+    console.log('++++++++++++createur dans le controller', createur);
+    return this.servicesService.findAllbyUser(createur);
+  }
+
+  //route qui affiche les détails d'un service dans "KnowMore"
   @Get('/detail/:id')
-  // @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard())
   findOneService(@Param('id') id: string) {
     return this.servicesService.findOneService(id);
   }
@@ -55,6 +65,7 @@ export class ServicesController {
     return this.servicesService.findOne(id, user);
   }
 
+  //route qui permet à un user de s'ajouter en tant que client
   @Patch('valid/:id')
   @UseGuards(AuthGuard())
   updateClient(
@@ -69,6 +80,20 @@ export class ServicesController {
     //   throw new BadRequestException('veuillez remplir un champ .');
     // }
     return this.servicesService.updateClient(id, updateClientDto, client);
+  }
+
+  //route afin de finaliser un service
+  @Patch('/finalise/:id')
+  @UseGuards(AuthGuard())
+  updateService(
+    @Param('id') id: string,
+    @Body() data: any,
+    // @GetUser() createur: User,
+  ) {
+    this.servicesService.updateService(id, data);
+    console.log('....data', data);
+    // return this.servicesService.updateService(id, data);
+    return 'ok';
   }
 
   @Patch(':id')

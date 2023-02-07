@@ -16,8 +16,11 @@ export class ServicesService {
   constructor(
     @InjectRepository(Service)
     private serviceRepository: Repository<Service>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
   ) {}
 
+  // post un service
   async create(
     createServiceDto: CreateServiceDto,
     user: User,
@@ -36,6 +39,20 @@ export class ServicesService {
     return await this.serviceRepository.find();
   }
 
+  //get les services d'un user
+  async findAllbyUser(user: User): Promise<Service[]> {
+    const query = await this.serviceRepository.findBy({
+      createur: {
+        id: user.id,
+      },
+    });
+    console.log('///////////query', query);
+    return query;
+    //   query.where({ createur: user.id });
+    //   console.log('ùùùùùùùùùùùquery', query);
+    //   return query.getMany();
+  }
+
   async findOneService(id: string): Promise<Service> {
     const queryServ = await this.serviceRepository.findOneBy({ id: id });
 
@@ -51,7 +68,7 @@ export class ServicesService {
     }
     return foundService;
   }
-
+  // ajout du client dans un service
   async updateClient(
     id: string,
     updateClientDto: UpdateClientDto,
@@ -68,6 +85,28 @@ export class ServicesService {
     return await this.serviceRepository.save(patch);
   }
 
+  //finalisation et mise à jour des comptes-temps
+  async updateService(
+    id: string,
+    data: any,
+    // user: User,
+  ) {
+    const service = await this.serviceRepository.findOneBy({ id: id });
+
+    const { createur, client } = service;
+    createur.compte_temps += data.compte_temps;
+    client.compte_temps -= data.compte_temps;
+    await this.serviceRepository.save(service);
+    await this.userRepository.save([createur, client]);
+
+    // const service = await this.serviceRepository.findOneBy({ id });
+    //const compteCreateur = service.createur.compte_temps;
+    //const compteClient = service.client.compte_temps;
+
+    return service;
+  }
+
+  //update un service
   async update(id: string, updateServiceDto: UpdateServiceDto, createur: User) {
     const updateService = await this.findOne(id, createur);
     if (updateService.titre !== undefined) {
