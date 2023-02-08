@@ -18,6 +18,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { UpdateClientDto } from './dto/update-ClientId.dto';
 import { Service } from './entities/service.entity';
 import { get } from 'http';
+import { finaliseServiceDto } from './dto/finalise-service.dto';
 
 @Controller('services')
 // @UseGuards(AuthGuard())
@@ -87,13 +88,14 @@ export class ServicesController {
   @UseGuards(AuthGuard())
   updateService(
     @Param('id') id: string,
-    @Body() data: any,
+    @Body() updateFinaliseDto: finaliseServiceDto,
+    // @Body() data: any,
     // @GetUser() createur: User,
   ) {
-    this.servicesService.updateService(id, data);
-    console.log('....data', data);
+    console.log('....data', updateFinaliseDto);
+    return this.servicesService.updateService(id, updateFinaliseDto);
     // return this.servicesService.updateService(id, data);
-    return 'ok';
+    //   return 'ok';
   }
 
   @Patch(':id')

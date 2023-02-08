@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateServiceDto } from './dto/create-service.dto';
+import { finaliseServiceDto } from './dto/finalise-service.dto';
 import { UpdateClientDto } from './dto/update-ClientId.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
 import { Service } from './entities/service.entity';
@@ -55,7 +56,7 @@ export class ServicesService {
 
   async findOneService(id: string): Promise<Service> {
     const queryServ = await this.serviceRepository.findOneBy({ id: id });
-
+    console.log('queryServ', queryServ);
     return queryServ;
   }
 
@@ -88,14 +89,14 @@ export class ServicesService {
   //finalisation et mise à jour des comptes-temps
   async updateService(
     id: string,
-    data: any,
+    updateFinaliseDto: finaliseServiceDto,
     // user: User,
   ) {
     const service = await this.serviceRepository.findOneBy({ id: id });
 
     const { createur, client } = service;
-    createur.compte_temps += data.compte_temps;
-    client.compte_temps -= data.compte_temps;
+    createur.compte_temps += updateFinaliseDto.compte_temps;
+    client.compte_temps -= updateFinaliseDto.compte_temps;
     await this.serviceRepository.save(service);
     await this.userRepository.save([createur, client]);
 
