@@ -53,6 +53,14 @@ export class ServicesController {
     return this.servicesService.findAllbyUser(createur);
   }
 
+  //route qui permet à un client d'afficher ses services
+  @Get('/byClient')
+  @UseGuards(AuthGuard())
+  findAllbyClient(@GetUser() client: User) {
+    console.log('++++++++++++createur dans le controller', client);
+    return this.servicesService.findAllbyClient(client);
+  }
+
   //route qui affiche les détails d'un service dans "KnowMore"
   @Get('/detail/:id')
   @UseGuards(AuthGuard())

@@ -54,6 +54,20 @@ export class ServicesService {
     //   return query.getMany();
   }
 
+  //get les services d'un client
+  async findAllbyClient(user: User): Promise<Service[]> {
+    const query = await this.serviceRepository.findBy({
+      client: {
+        id: user.id,
+      },
+    });
+    console.log('///////////query', query);
+    return query;
+    //   query.where({ createur: user.id });
+    //   console.log('ùùùùùùùùùùùquery', query);
+    //   return query.getMany();
+  }
+
   async findOneService(id: string): Promise<Service> {
     const queryServ = await this.serviceRepository.findOneBy({ id: id });
     console.log('queryServ', queryServ);
@@ -109,7 +123,12 @@ export class ServicesService {
 
   //update un service
   async update(id: string, updateServiceDto: UpdateServiceDto, createur: User) {
-    const updateService = await this.findOne(id, createur);
+    const foundService = await this.serviceRepository.createQueryBuilder();
+    foundService.where({ id: id }).andWhere({ createur: createur });
+    const updateService = await foundService.getOne();
+    // const updateService = await this.serviceRepository.findOneBy({ id: id });
+    // const updateService = await this.serviceRepository.findOne(id, createur);
+    console.log('updateService---------', updateService);
     if (updateService.titre !== undefined) {
       updateService.titre = updateServiceDto.titre;
     }
