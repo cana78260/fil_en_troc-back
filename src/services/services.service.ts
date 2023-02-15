@@ -123,35 +123,44 @@ export class ServicesService {
 
   //update un service
   async update(id: string, updateServiceDto: UpdateServiceDto, createur: User) {
-    const foundService = await this.serviceRepository.createQueryBuilder();
-    foundService.where({ id: id }).andWhere({ createur: createur });
-    const updateService = await foundService.getOne();
+    const foundService = await this.serviceRepository.findOne({
+      where: {
+        id: id,
+        createur: createur,
+      },
+    });
+    // const foundService = await this.serviceRepository.createQueryBuilder();
+    // foundService.where({ id: id }).andWhere({ createur: createur });
+    // const updateService = await foundService.();
     // const updateService = await this.serviceRepository.findOneBy({ id: id });
-    // const updateService = await this.serviceRepository.findOne(id, createur);
-    console.log('updateService---------', updateService);
-    if (updateService.titre !== undefined) {
-      updateService.titre = updateServiceDto.titre;
+    // const foundService = await this.serviceRepository.findOne(id, createur);
+    console.log('updateService---------', foundService);
+    if (foundService.titre !== undefined) {
+      foundService.titre = updateServiceDto.titre;
     }
-    if (updateService.localisation !== undefined) {
-      updateService.localisation = updateServiceDto.localisation;
+    if (foundService.localisation !== undefined) {
+      foundService.localisation = updateServiceDto.localisation;
     }
 
-    if (updateService.departement !== undefined) {
-      updateService.departement = updateServiceDto.departement;
+    if (foundService.departement !== undefined) {
+      foundService.departement = updateServiceDto.departement;
     }
-    if (updateService.creation !== undefined) {
-      updateService.creation = updateServiceDto.creation;
+    if (foundService.creation !== undefined) {
+      foundService.creation = updateServiceDto.creation;
     }
-    if (updateService.echeance !== undefined) {
-      updateService.echeance = updateServiceDto.echeance;
+    if (foundService.echeance !== undefined) {
+      foundService.echeance = updateServiceDto.echeance;
     }
-    if (updateService.note !== undefined) {
-      updateService.note = updateServiceDto.note;
+    if (foundService.note !== undefined) {
+      foundService.note = updateServiceDto.note;
     }
-    if (updateService.libelle !== undefined) {
-      updateService.libelle = updateServiceDto.libelle;
+    if (foundService.libelle !== undefined) {
+      foundService.libelle = updateServiceDto.libelle;
     }
-    return await this.serviceRepository.save(updateService);
+    if (foundService.categorie !== undefined) {
+      foundService.categorie = updateServiceDto.categorie;
+    }
+    return await this.serviceRepository.save(foundService);
   }
 
   async remove(id: string): Promise<string> {
