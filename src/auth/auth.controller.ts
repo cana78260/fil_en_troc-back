@@ -7,11 +7,18 @@ import {
   Param,
   Delete,
   BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { User } from 'src/users/entities/user.entity';
+import { AdminGuard } from './AdminGuard';
 import { AuthService } from './auth.service';
 import { UserLoginDto } from './dto/auth_login.dto';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import { UpdateServiceAdminDto } from './dto/update-service-admin.dto';
+import { UpdateUserAdminDto } from './dto/update-userAdmin.dto';
+import { GetUser } from './get-user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -60,6 +67,26 @@ export class AuthController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.authService.findOne(+id);
+  }
+  //Route Admin pour modifier un service
+  @Patch('/service/:id')
+  @UseGuards(AuthGuard(), AdminGuard)
+  updateService(
+    @Param('id') id: string,
+    @Body() updateServiceAdminDto: UpdateServiceAdminDto,
+    // @GetUser() user: User,
+  ) {
+    return this.authService.updateService(id, updateServiceAdminDto);
+  }
+
+  //Route Admin pour modifier un user
+  @Patch('/user/:id')
+  @UseGuards(AuthGuard(), AdminGuard)
+  updateUser(
+    @Param('id') id: string,
+    @Body() updateUserAdminDto: UpdateUserAdminDto,
+  ) {
+    return this.authService.updateUser(id, updateUserAdminDto);
   }
 
   @Patch(':id')

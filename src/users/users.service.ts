@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateAuthDto } from 'src/auth/dto/create-auth.dto';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 // import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -60,15 +61,19 @@ export class UsersService {
     if (userUpdate.mail !== undefined) {
       userUpdate.mail = updateUserDto.mail;
     }
-    if (userUpdate.mot_de_passe !== undefined) {
+    if (updateUserDto.mot_de_passe !== undefined) {
+      const saltOrRounds = 10;
+      const password = updateUserDto.mot_de_passe;
       userUpdate.mot_de_passe = updateUserDto.mot_de_passe;
+      const hash = await bcrypt.hash(password, saltOrRounds);
+      userUpdate.mot_de_passe = hash;
     }
-    if (userUpdate.compte_temps !== undefined) {
-      userUpdate.compte_temps = updateUserDto.compte_temps;
-    }
-    if (userUpdate.moyenne_notes !== undefined) {
-      userUpdate.moyenne_notes = updateUserDto.moyenne_notes;
-    }
+    // if (userUpdate.compte_temps !== undefined) {
+    //   userUpdate.compte_temps = updateUserDto.compte_temps;
+    // }
+    // if (userUpdate.moyenne_notes !== undefined) {
+    //   userUpdate.moyenne_notes = updateUserDto.moyenne_notes;
+    // }
 
     return await this.userRepository.save(userUpdate);
   }

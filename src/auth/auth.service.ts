@@ -13,6 +13,9 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from 'src/role/entities/role.entity';
 import { UserLoginDto } from './dto/auth_login.dto';
+import { UpdateServiceAdminDto } from './dto/update-service-admin.dto';
+import { Service } from 'src/services/entities/service.entity';
+import { UpdateUserAdminDto } from './dto/update-userAdmin.dto';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +25,8 @@ export class AuthService {
     private userRepository: Repository<User>,
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
+    @InjectRepository(Service)
+    private serviceRepository: Repository<Service>,
   ) {}
 
   async register(createAuthDto: CreateAuthDto): Promise<User> {
@@ -122,6 +127,91 @@ export class AuthService {
 
   findOne(id: number) {
     return `This action returns a #${id} auth`;
+  }
+
+  async updateService(
+    id: string,
+    updateServiceAdminDto: UpdateServiceAdminDto,
+  ) {
+    const foundService = await this.serviceRepository.findOneBy({ id: id });
+    // const foundService = await this.serviceRepository.createQueryBuilder();
+    // foundService.where({ id: id }).andWhere({ createur: createur });
+    // const updateService = await foundService.();
+    // const updateService = await this.serviceRepository.findOneBy({ id: id });
+    // const foundService = await this.serviceRepository.findOne(id, createur);
+    console.log('updateService---------', foundService);
+    if (foundService.titre !== undefined) {
+      foundService.titre = updateServiceAdminDto.titre;
+    }
+    if (foundService.localisation !== undefined) {
+      foundService.localisation = updateServiceAdminDto.localisation;
+    }
+
+    if (foundService.departement !== undefined) {
+      foundService.departement = updateServiceAdminDto.departement;
+    }
+    if (foundService.creation !== undefined) {
+      foundService.creation = updateServiceAdminDto.creation;
+    }
+    if (foundService.echeance !== undefined) {
+      foundService.echeance = updateServiceAdminDto.echeance;
+    }
+    if (foundService.note !== undefined) {
+      foundService.note = updateServiceAdminDto.note;
+    }
+    if (foundService.libelle !== undefined) {
+      foundService.libelle = updateServiceAdminDto.libelle;
+    }
+    if (foundService.categorie !== undefined) {
+      foundService.categorie = updateServiceAdminDto.categorie;
+    }
+    return await this.serviceRepository.save(foundService);
+  }
+
+  async updateUser(
+    id: string,
+    updateUserAdminDto: UpdateUserAdminDto,
+  ): Promise<User> {
+    const userUpdate = await this.userRepository.findOneBy({ id: id });
+
+    if (userUpdate.nom !== undefined) {
+      userUpdate.nom = updateUserAdminDto.nom;
+    }
+    if (userUpdate.prenom !== undefined) {
+      userUpdate.prenom = updateUserAdminDto.prenom;
+    }
+    if (userUpdate.pseudo !== undefined) {
+      userUpdate.pseudo = updateUserAdminDto.pseudo;
+    }
+    if (userUpdate.age !== undefined) {
+      userUpdate.age = updateUserAdminDto.age;
+    }
+    if (userUpdate.genre !== undefined) {
+      userUpdate.genre = updateUserAdminDto.genre;
+    }
+    if (userUpdate.adresse !== undefined) {
+      userUpdate.adresse = updateUserAdminDto.adresse;
+    }
+    if (userUpdate.ville !== undefined) {
+      userUpdate.ville = updateUserAdminDto.ville;
+    }
+    if (userUpdate.departement !== undefined) {
+      userUpdate.departement = updateUserAdminDto.departement;
+    }
+    if (userUpdate.mail !== undefined) {
+      userUpdate.mail = updateUserAdminDto.mail;
+    }
+    if (userUpdate.mot_de_passe !== undefined) {
+      userUpdate.mot_de_passe = updateUserAdminDto.mot_de_passe;
+    }
+    if (userUpdate.compte_temps !== undefined) {
+      userUpdate.compte_temps = updateUserAdminDto.compte_temps;
+    }
+    if (userUpdate.moyenne_notes !== undefined) {
+      userUpdate.moyenne_notes = updateUserAdminDto.moyenne_notes;
+    }
+
+    return await this.userRepository.save(userUpdate);
   }
 
   update(id: number, updateAuthDto: UpdateAuthDto) {
