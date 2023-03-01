@@ -49,9 +49,6 @@ export class ServicesService {
     });
     console.log('///////////query', query);
     return query;
-    //   query.where({ createur: user.id });
-    //   console.log('ùùùùùùùùùùùquery', query);
-    //   return query.getMany();
   }
 
   //get les services d'un client
@@ -92,6 +89,11 @@ export class ServicesService {
     const patch = await this.findOneService(id);
 
     console.log('---------patch', patch);
+    if (patch.client.compte_temps <= 30) {
+      throw new NotFoundException(
+        'Désolé, il vous faut au minimum 30 minutes pour valider le service',
+      );
+    }
     if (!patch) {
       throw new NotFoundException(`Pas de service avec l'id: ${id} `);
     }
@@ -111,8 +113,14 @@ export class ServicesService {
     const { createur, client } = service;
     createur.compte_temps += updateFinaliseDto.compte_temps;
     client.compte_temps -= updateFinaliseDto.compte_temps;
-    await this.serviceRepository.save(service);
-    await this.userRepository.save([createur, client]);
+    if (updateFinaliseDto.compte_temps > client.compte_temps) {
+      throw new NotFoundException(
+        `le temps à créditer dépasse le total compte temps de votre homologue `,
+      );
+    } else {
+      await this.serviceRepository.save(service);
+      await this.userRepository.save([createur, client]);
+    }
 
     // const service = await this.serviceRepository.findOneBy({ id });
     //const compteCreateur = service.createur.compte_temps;
