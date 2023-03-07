@@ -20,10 +20,14 @@ export class Messagerie {
 
   @Column({
     nullable: false,
+    type: 'varchar',
+    length: 100,
+  })
+  mail: string;
+
+  @Column({
+    nullable: false,
     type: 'text',
   })
   message: string;
-
-  @ManyToOne(() => User, (users) => users.message, { eager: false })
-  users: User;
 }

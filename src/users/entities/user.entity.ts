@@ -105,7 +105,4 @@ export class User {
 
   @OneToMany(() => Service, (services) => services.client, { eager: false })
   serviceReservé: Service[];
-
-  @OneToMany(() => Messagerie, (message) => message.users, { eager: true })
-  message: Messagerie[];
 }
