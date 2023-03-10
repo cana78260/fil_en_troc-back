@@ -14,8 +14,12 @@ import { Role } from 'src/role/entities/role.entity';
 
 export class UpdateUserDto {
   @IsOptional()
-  @IsString()
-  @IsNotEmpty()
+  @IsString({
+    message: ' *Le nom doit être une chaîne de caractères',
+  })
+  @IsNotEmpty({
+    message: ' *Le nom ne peut pas être vide.',
+  })
   @Matches(/^[A-Za-z]*$/, {
     message: "*Le nom ne doit pas contenir d'espace",
   })
@@ -25,8 +29,12 @@ export class UpdateUserDto {
   nom: string;
 
   @IsOptional()
-  @IsString()
-  @IsNotEmpty()
+  @IsString({
+    message: ' *Le prénom doit être une chaîne de caractères',
+  })
+  @IsNotEmpty({
+    message: ' *Le prénom ne peut pas être vide.',
+  })
   @Matches(/^[A-Za-z]*$/, {
     message: "*Le prénom ne doit pas contenir d'espace",
   })
@@ -36,8 +44,12 @@ export class UpdateUserDto {
   prenom: string;
 
   @IsOptional()
-  @IsString()
-  @IsNotEmpty()
+  @IsString({
+    message: ' *Le pseudo doit être une chaîne de caractères',
+  })
+  @IsNotEmpty({
+    message: ' *Le pseudo ne peut pas être vide.',
+  })
   @MinLength(1, {
     message: ' *Le pseudo doit contenir au moins deux caractère',
   })
@@ -45,8 +57,10 @@ export class UpdateUserDto {
 
   @IsOptional()
   @IsInt()
-  @Min(6)
-  @Max(120)
+  @Min(6, {
+    message: ' *Vous devez avoir au moins 6ans pour vous inscrire sur le site',
+  })
+  @Max(120, { message: ' *Vous ne pouvez pas vous inscrire sur le site' })
   age: number;
 
   @IsOptional()
@@ -60,14 +74,18 @@ export class UpdateUserDto {
   genre: string;
 
   @IsOptional()
-  @IsString()
+  @IsString({
+    message: ' *Le pseudo doit être une chaîne de caractères',
+  })
   @MinLength(1, {
     message: ' *Votre adresse doit contenir au moins un caractère',
   })
   adresse: string;
 
   @IsOptional()
-  @IsString()
+  @IsString({
+    message: ' *La ville doit être une chaîne de caractères',
+  })
   @IsNotEmpty({
     message: ' *La ville ne peut pas être vide.',
   })
@@ -77,9 +95,14 @@ export class UpdateUserDto {
   ville: string;
 
   @IsOptional()
-  @IsString()
+  @IsString({
+    message: ' *Le département doit être une chaîne de caractères',
+  })
+  @IsNotEmpty({
+    message: ' *Le département ne peut pas être vide.',
+  })
   @MinLength(3, {
-    message: ' *Votre département doit contenir au moins trois caractères',
+    message: ' *Le département doit contenir au moins trois caractères',
   })
   departement: string;
 

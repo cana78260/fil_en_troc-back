@@ -57,8 +57,10 @@ export class CreateAuthDto {
   pseudo: string;
 
   @IsInt()
-  @Min(6)
-  @Max(120)
+  @Min(6, {
+    message: ' *Vous devez avoir au moins 6ans pour vous inscrire sur le site',
+  })
+  @Max(120, { message: ' *Vous ne pouvez pas vous inscrire sur le site' })
   age: number;
 
   @IsString()

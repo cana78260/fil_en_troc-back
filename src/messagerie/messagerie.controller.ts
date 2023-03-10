@@ -6,10 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { MessagerieService } from './messagerie.service';
 import { CreateMessagerieDto } from './dto/create-messagerie.dto';
 import { UpdateMessagerieDto } from './dto/update-messagerie.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { AdminGuard } from 'src/auth/AdminGuard';
 
 @Controller('messagerie')
 export class MessagerieController {
@@ -21,6 +24,7 @@ export class MessagerieController {
   }
 
   @Get()
+  @UseGuards(AuthGuard(), AdminGuard)
   findAll() {
     return this.messagerieService.findAll();
   }
@@ -39,6 +43,7 @@ export class MessagerieController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard(), AdminGuard)
   remove(@Param('id') id: string) {
     return this.messagerieService.remove(id);
   }

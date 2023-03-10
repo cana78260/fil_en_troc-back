@@ -6,12 +6,16 @@ import * as bcrypt from 'bcrypt';
 // import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { createTransport } from 'nodemailer';
+import { JwtService } from '@nestjs/jwt';
+import { NewPasswordDto } from './dto/new-password.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private jwtService: JwtService, // private mailService: MailService // private transporter: Transporter
   ) {}
 
   // async create(createUserDto: CreateAuthDto): Promise<User> {
@@ -75,6 +79,65 @@ export class UsersService {
     //   userUpdate.moyenne_notes = updateUserDto.moyenne_notes;
     // }
 
+    return await this.userRepository.save(userUpdate);
+  }
+
+  async findOneByEmail(mail: string) {
+    const mailFound = await this.userRepository.findOneBy({ mail: mail });
+    let token;
+    const transporter = createTransport({
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: false,
+      auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASSWORD,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+    console.log(transporter, 'transporter');
+    if (!mailFound) {
+      throw new NotFoundException(`Pas d'utilisateurs cet email : ${mail}`);
+    }
+    try {
+      token = this.jwtService.sign({
+        email: mailFound.mail,
+        id: mailFound.id,
+      });
+    } catch (error) {
+      console.log('error du catch', error);
+      throw new Error('erreur lors de la generation du mail');
+    }
+
+    const urlLocal = `http://localhost:3000/resetpassword?token=${token}`;
+
+    const message = {
+      from: process.env.MAIL_USER,
+      to: mailFound.mail,
+      subject: 'Réinitialisation de votre mot de passe Karaté Club de Fosses',
+      text: `Bonjour : ${mailFound.mail},
+       cliquez sur ce lien pour réinitialiser votre mot de passe : ${urlLocal} ,`,
+    };
+    console.log(message, 'message');
+    const mailSend = await transporter.sendMail(message);
+    return { mailSend, token };
+  }
+
+  async updateForgottedPassword(newPasswordDto: NewPasswordDto, id: string) {
+    const userUpdate = await this.findOne(id);
+    console.log('utilisateur trouvé', userUpdate);
+    if (newPasswordDto !== undefined) {
+      const saltOrRounds = 10;
+      const password = newPasswordDto.password;
+      console.log('password: ', password);
+
+      const hash = await bcrypt.hash(password, saltOrRounds);
+      console.log('hash: ', hash);
+      userUpdate.mot_de_passe = hash;
+    }
     return await this.userRepository.save(userUpdate);
   }
 

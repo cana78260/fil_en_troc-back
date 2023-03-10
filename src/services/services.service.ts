@@ -81,15 +81,10 @@ export class ServicesService {
     return foundService;
   }
   // ajout du client dans un service
-  async updateClient(
-    id: string,
-    updateClientDto: UpdateClientDto,
-    client: User,
-  ): Promise<Service> {
+  async updateClient(id: string, client: User): Promise<Service> {
     const patch = await this.findOneService(id);
 
-    console.log('---------patch', patch);
-    if (patch.client.compte_temps <= 30) {
+    if (client.compte_temps <= 30) {
       throw new NotFoundException(
         'Désolé, il vous faut au minimum 30 minutes pour valider le service',
       );

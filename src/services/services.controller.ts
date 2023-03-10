@@ -77,18 +77,15 @@ export class ServicesController {
   //route qui permet à un user de s'ajouter en tant que client
   @Patch('valid/:id')
   @UseGuards(AuthGuard())
-  updateClient(
-    @Param('id') id: string,
-    @Body() updateClientDto: UpdateClientDto,
-    @GetUser() client: User,
-  ) {
+  updateClient(@Param('id') id: string, @GetUser() client: User) {
     // if (
     //   updateClientDto.client.id === undefined ||
     //   updateClientDto.client.id === undefined
     // ) {
     //   throw new BadRequestException('veuillez remplir un champ .');
     // }
-    return this.servicesService.updateClient(id, updateClientDto, client);
+
+    return this.servicesService.updateClient(id, client);
   }
 
   //route afin de finaliser un service
@@ -117,6 +114,7 @@ export class ServicesController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard())
   remove(@Param('id') id: string) {
     return this.servicesService.remove(id);
   }
