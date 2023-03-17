@@ -117,7 +117,7 @@ export class UsersService {
     const message = {
       from: process.env.MAIL_USER,
       to: mailFound.mail,
-      subject: 'Réinitialisation de votre mot de passe Karaté Club de Fosses',
+      subject: 'Réinitialisation de votre mot de passe Fil en Troc',
       text: `Bonjour : ${mailFound.mail},
        cliquez sur ce lien pour réinitialiser votre mot de passe : ${urlLocal} ,`,
     };

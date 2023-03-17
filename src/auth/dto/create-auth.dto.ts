@@ -56,19 +56,19 @@ export class CreateAuthDto {
   })
   pseudo: string;
 
-  @IsInt()
-  @Min(6, {
-    message: ' *Vous devez avoir au moins 6ans pour vous inscrire sur le site',
+  @IsInt({
+    message: ' *Vous devez entrer un chiffre dans le champ age',
+  })
+  @Min(16, {
+    message:
+      ' *Vous devez avoir au moins 16 ans pour vous inscrire sur le site',
   })
   @Max(120, { message: ' *Vous ne pouvez pas vous inscrire sur le site' })
   age: number;
 
   @IsString()
-  @MinLength(5, {
-    message: ' *Vous devez rentrer 5 caractères',
-  })
-  @MaxLength(5, {
-    message: ' *Vous ne pouvez entrer que 5 caractères maximum.',
+  @MinLength(1, {
+    message: ' *Vous devez rentrer au moins 1   caractère dans le champ genre',
   })
   genre: string;
 

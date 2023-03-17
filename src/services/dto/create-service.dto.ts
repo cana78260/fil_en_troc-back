@@ -49,8 +49,8 @@ export class CreateServiceDto {
   client: User;
 
   createur: User;
-  @IsNotEmpty({
-    message: ' *Vous devez sélectionner une catégorie.',
-  })
+  // @IsNotEmpty({
+  //   message: ' *Vous devez sélectionner une catégorie.',
+  // })
   category?: Category;
 }

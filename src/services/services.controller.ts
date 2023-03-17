@@ -31,12 +31,6 @@ export class ServicesController {
     @Body() createServiceDto: CreateServiceDto,
     @GetUser() createur: User,
   ) {
-    console.log(
-      '-------------createServiceDto dans le controller',
-      createServiceDto,
-      '++++++++++++createur dans le controller',
-      createur,
-    );
     return this.servicesService.create(createServiceDto, createur);
   }
 
@@ -94,13 +88,8 @@ export class ServicesController {
   updateService(
     @Param('id') id: string,
     @Body() updateFinaliseDto: finaliseServiceDto,
-    // @Body() data: any,
-    // @GetUser() createur: User,
   ) {
-    console.log('....data', updateFinaliseDto);
     return this.servicesService.updateService(id, updateFinaliseDto);
-    // return this.servicesService.updateService(id, data);
-    //   return 'ok';
   }
 
   @Patch(':id')

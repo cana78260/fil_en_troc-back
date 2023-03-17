@@ -29,10 +29,8 @@ export class ServicesService {
     const createur = {
       id: user.id,
     };
-    console.log('.........createur', createur);
     const service = { ...createServiceDto, createur };
 
-    console.log('*************service', service);
     return await this.serviceRepository.save(service);
   }
 
@@ -116,10 +114,6 @@ export class ServicesService {
       await this.serviceRepository.save(service);
       await this.userRepository.save([createur, client]);
     }
-
-    // const service = await this.serviceRepository.findOneBy({ id });
-    //const compteCreateur = service.createur.compte_temps;
-    //const compteClient = service.client.compte_temps;
 
     return service;
   }
