@@ -26,7 +26,6 @@ export class CreateAuthDto {
     message: ' *Le nom doit contenir au moins un caractère',
   })
   nom: string;
-  // @IsString()
 
   @IsString({
     message: ' *Le prénom doit être une chaîne de caractères',

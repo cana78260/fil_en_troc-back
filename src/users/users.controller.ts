@@ -9,12 +9,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-// import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import jwt_decoded from 'jwt-decode';
 import { AuthGuard } from '@nestjs/passport';
-import { AdminGuard } from 'src/auth/AdminGuard';
 import { VerifUserDto } from './dto/verif-user.dto';
 import { NewPasswordDto } from './dto/new-password.dto';
 import * as dotenv from 'dotenv';
@@ -31,12 +29,6 @@ export class UsersController {
     private readonly usersService: UsersService,
     private jwtService: JwtService,
   ) {}
-
-  //requête créée dans AuthService
-  // @Post()
-  // create(@Body() createUserDto: CreateUserDto) {
-  //   return this.usersService.create(createUserDto);
-  // }
 
   //Admin
   @Get()

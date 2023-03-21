@@ -1,4 +1,3 @@
-import { Messagerie } from 'src/messagerie/entities/messagerie.entity';
 import { Role } from 'src/role/entities/role.entity';
 import { Service } from 'src/services/entities/service.entity';
 import {

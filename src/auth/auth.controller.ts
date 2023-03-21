@@ -18,7 +18,6 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UpdateServiceAdminDto } from './dto/update-service-admin.dto';
 import { UpdateUserAdminDto } from './dto/update-userAdmin.dto';
-import { GetUser } from './get-user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -38,7 +37,6 @@ export class AuthController {
       createAuthDto.mail &&
       createAuthDto.mot_de_passe &&
       createAuthDto.compte_temps
-      // createAuthDto.moyenne_notes
     ) {
       return this.authService.register(createAuthDto);
     } else {
@@ -74,7 +72,6 @@ export class AuthController {
   updateService(
     @Param('id') id: string,
     @Body() updateServiceAdminDto: UpdateServiceAdminDto,
-    // @GetUser() user: User,
   ) {
     return this.authService.updateService(id, updateServiceAdminDto);
   }

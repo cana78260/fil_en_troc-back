@@ -1,4 +1,3 @@
-import { PartialType } from '@nestjs/mapped-types';
 import { Category } from 'src/categories/entities/category.entity';
 import { User } from 'src/users/entities/user.entity';
 // import { CreateServiceDto } from './create-service.dto';

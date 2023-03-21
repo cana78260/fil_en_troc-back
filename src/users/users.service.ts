@@ -1,9 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateAuthDto } from 'src/auth/dto/create-auth.dto';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-// import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { createTransport } from 'nodemailer';
@@ -15,13 +13,8 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    private jwtService: JwtService, // private mailService: MailService // private transporter: Transporter
+    private jwtService: JwtService,
   ) {}
-
-  // async create(createUserDto: CreateAuthDto): Promise<User> {
-  //   const userCreate = await this.userRepository.save(createUserDto);
-  //   return await this.userRepository.save(userCreate);
-  // }
 
   async findAll(): Promise<User[]> {
     return await this.userRepository.find();
@@ -72,12 +65,6 @@ export class UsersService {
       const hash = await bcrypt.hash(password, saltOrRounds);
       userUpdate.mot_de_passe = hash;
     }
-    // if (userUpdate.compte_temps !== undefined) {
-    //   userUpdate.compte_temps = updateUserDto.compte_temps;
-    // }
-    // if (userUpdate.moyenne_notes !== undefined) {
-    //   userUpdate.moyenne_notes = updateUserDto.moyenne_notes;
-    // }
 
     return await this.userRepository.save(userUpdate);
   }
@@ -108,7 +95,6 @@ export class UsersService {
         id: mailFound.id,
       });
     } catch (error) {
-      console.log('error du catch', error);
       throw new Error('erreur lors de la generation du mail');
     }
 

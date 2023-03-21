@@ -42,14 +42,11 @@ export class AuthService {
       pseudo,
       mot_de_passe,
       compte_temps,
-      // moyenne_notes,
     } = createAuthDto;
 
     const salt = await bcrypt.genSalt();
-    console.log('salt------', salt);
-    console.log('mdp------', mot_de_passe);
+
     const hashedPassword = await bcrypt.hash(mot_de_passe, salt);
-    console.log('hash------', hashedPassword);
 
     const user = this.userRepository.create({
       nom,
@@ -63,16 +60,11 @@ export class AuthService {
       mail,
       mot_de_passe: hashedPassword,
       compte_temps,
-      // moyenne_notes,
     });
 
     try {
       const roleUser = await this.roleRepository.findOneBy({ label: 'user' });
-      // const roleUserString = roleUser.label;
-      console.log('roleUser ', roleUser);
-      //1 faire un get all users
-      //2 récupérer tous les users.emaildans un tab
-      //3 dans une boucle comparer => si result =
+
       user.role = roleUser;
       const createdUser = await this.userRepository.save(user);
       delete createdUser.mot_de_passe;
@@ -87,20 +79,11 @@ export class AuthService {
     }
   }
 
-  // async validateUser(email: string, password: string): Promise<any> {
-  //   const user = await this.userRepository.findOneBy({ mail: email });
-  //   console.log('validate user');
-  //   if (user && user.mot_de_passe === password) {
-  //     const { mot_de_passe, ...result } = user;
-  //     return result;
-  //   }
-  //   return null;
-  // }
   async login(userLogin: UserLoginDto) {
     const userLogged = await this.userRepository.findOneBy({
       mail: userLogin.mail,
     });
-    console.log('userLogged-----', userLogged);
+
     if (
       userLogged &&
       (await bcrypt.compare(userLogin.password, userLogged.mot_de_passe))
@@ -110,7 +93,7 @@ export class AuthService {
         role: userLogged.role.label,
         id: userLogged.id,
       };
-      console.log('payload: ', payload);
+
       return {
         access_token: this.jwtService.sign(payload),
       };
@@ -134,11 +117,7 @@ export class AuthService {
     updateServiceAdminDto: UpdateServiceAdminDto,
   ) {
     const foundService = await this.serviceRepository.findOneBy({ id: id });
-    // const foundService = await this.serviceRepository.createQueryBuilder();
-    // foundService.where({ id: id }).andWhere({ createur: createur });
-    // const updateService = await foundService.();
-    // const updateService = await this.serviceRepository.findOneBy({ id: id });
-    // const foundService = await this.serviceRepository.findOne(id, createur);
+
     console.log('updateService---------', foundService);
     if (foundService.titre !== undefined) {
       foundService.titre = updateServiceAdminDto.titre;

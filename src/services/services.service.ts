@@ -1,14 +1,9 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { finaliseServiceDto } from './dto/finalise-service.dto';
-import { UpdateClientDto } from './dto/update-ClientId.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
 import { Service } from './entities/service.entity';
 
@@ -45,7 +40,6 @@ export class ServicesService {
         id: user.id,
       },
     });
-    console.log('///////////query', query);
     return query;
   }
 
@@ -56,16 +50,13 @@ export class ServicesService {
         id: user.id,
       },
     });
-    console.log('///////////query', query);
+
     return query;
-    //   query.where({ createur: user.id });
-    //   console.log('ùùùùùùùùùùùquery', query);
-    //   return query.getMany();
   }
 
   async findOneService(id: string): Promise<Service> {
     const queryServ = await this.serviceRepository.findOneBy({ id: id });
-    console.log('queryServ', queryServ);
+
     return queryServ;
   }
 
@@ -96,11 +87,7 @@ export class ServicesService {
   }
 
   //finalisation et mise à jour des comptes-temps
-  async updateService(
-    id: string,
-    updateFinaliseDto: finaliseServiceDto,
-    // user: User,
-  ) {
+  async updateService(id: string, updateFinaliseDto: finaliseServiceDto) {
     const service = await this.serviceRepository.findOneBy({ id: id });
 
     const { createur, client } = service;
@@ -126,11 +113,7 @@ export class ServicesService {
         createur: createur,
       },
     });
-    // const foundService = await this.serviceRepository.createQueryBuilder();
-    // foundService.where({ id: id }).andWhere({ createur: createur });
-    // const updateService = await foundService.();
-    // const updateService = await this.serviceRepository.findOneBy({ id: id });
-    // const foundService = await this.serviceRepository.findOne(id, createur);
+
     console.log('updateService---------', foundService);
     if (foundService.titre !== undefined) {
       foundService.titre = updateServiceDto.titre;

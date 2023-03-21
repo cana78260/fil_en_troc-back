@@ -24,7 +24,6 @@ dotenv.config({ path: '.env' });
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public/assets'),
-      // serveRoot: 'public/assets/',
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',

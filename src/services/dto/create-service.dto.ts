@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, Matches, MinLength } from 'class-validator';
+import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { Category } from 'src/categories/entities/category.entity';
 import { User } from 'src/users/entities/user.entity';
 
@@ -49,8 +49,6 @@ export class CreateServiceDto {
   client: User;
 
   createur: User;
-  // @IsNotEmpty({
-  //   message: ' *Vous devez sélectionner une catégorie.',
-  // })
+
   category?: Category;
 }
